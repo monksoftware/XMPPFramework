@@ -1017,6 +1017,10 @@
 	
 	for (uint32_t i = 0; i < diff; i++)
 	{
+		if ([unackedByServer count - 1] < (NSUInteger)i) {
+			break;
+		}
+			
 		XMPPStreamManagementOutgoingStanza *outgoingStanza = unackedByServer[(NSUInteger) i];
 		
 		if ([outgoingStanza awaitingStanzaId])
@@ -1038,6 +1042,7 @@
 		if (canProcessEntireAck)
 		{
 			[unackedByServer removeObjectsInRange:NSMakeRange(0, (NSUInteger)diff)];
+			
 			if (unackedByServer_lastRequestOffset > diff)
 				unackedByServer_lastRequestOffset -= diff;
 			else
