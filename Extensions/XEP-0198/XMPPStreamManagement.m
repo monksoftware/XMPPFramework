@@ -1017,7 +1017,7 @@
 	
 	for (uint32_t i = 0; i < diff; i++)
 	{
-		if ([unackedByServer count - 1] < (NSUInteger)i) {
+		if ([unackedByServer count] - 1 < (NSUInteger)i) {
 			break;
 		}
 			
