@@ -1015,8 +1015,14 @@
 	
 	NSMutableArray *stanzaIds = [NSMutableArray arrayWithCapacity:(NSUInteger)diff];
 	
+//	added guard to avoid crash
+	if (unackedByServer.firstObject == nil)  {
+		return NO
+	}
+	
 	for (uint32_t i = 0; i < diff; i++)
 	{
+		//	old guard remove after testing
 		if ([unackedByServer count] - 1 < (NSUInteger)i) {
 			break;
 		}
@@ -1068,7 +1074,7 @@
 		}
 		
 			// Update storage
-		if unackedByServer != nil {
+		if (unackedByServer.firstObject != nil) {
 			
 			NSArray *pending = [[NSArray alloc] initWithArray:unackedByServer copyItems:YES];
 			
