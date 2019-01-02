@@ -1017,7 +1017,7 @@
 	
 //	added guard to avoid crash
 	if (unackedByServer.firstObject == nil)  {
-		return NO
+		return NO;
 	}
 	
 	for (uint32_t i = 0; i < diff; i++)
