@@ -1067,26 +1067,27 @@
 			               THIS_FILE, lastHandledByServer, (unsigned long)[unackedByServer count]);
 		}
 		
-		// Update storage
-		
-		NSArray *pending = [[NSArray alloc] initWithArray:unackedByServer copyItems:YES];
-		
-		if (isStarted)
-		{
-			[storage setLastDisconnect:[NSDate date]
-			       lastHandledByServer:lastHandledByServer
-			    pendingOutgoingStanzas:pending
-			                 forStream:xmppStream];
+			// Update storage
+		if unackedByServer != nil {
+			
+			NSArray *pending = [[NSArray alloc] initWithArray:unackedByServer copyItems:YES];
+			
+			if (isStarted)
+			{
+				[storage setLastDisconnect:[NSDate date]
+					   lastHandledByServer:lastHandledByServer
+					pendingOutgoingStanzas:pending
+								 forStream:xmppStream];
+			}
+			else // edge case
+			{
+				[storage setLastDisconnect:disconnectDate
+					   lastHandledByClient:lastHandledByClient
+					   lastHandledByServer:lastHandledByServer
+					pendingOutgoingStanzas:pending
+								 forStream:xmppStream];
+			}
 		}
-		else // edge case
-		{
-			[storage setLastDisconnect:disconnectDate
-			       lastHandledByClient:lastHandledByClient
-			       lastHandledByServer:lastHandledByServer
-			    pendingOutgoingStanzas:pending
-			                 forStream:xmppStream];
-		}
-		
 		// Notify delegate
 		
 		[multicastDelegate xmppStreamManagement:self didReceiveAckForStanzaIds:stanzaIds];
